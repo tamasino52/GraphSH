@@ -77,6 +77,9 @@ python main_gcn.py --gcn dc_vanilla
 # Decoupled Pre-Aggresive GCN (What method used in paper)
 python main_gcn.py --gcn dc_preagg
 
+# Semantic GCN (What method used in paper)
+python main_gcn.py --gcn semantic
+
 # Decoupled Post-Aggresive GCN
 python main_gcn.py --gcn dc_postagg
 

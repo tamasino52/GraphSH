@@ -10,6 +10,7 @@ from models.gconv.post_agg_graph_conv import DecouplePostAggGraphConv
 from models.gconv.conv_style_graph_conv import ConvStyleGraphConv
 from models.gconv.no_sharing_graph_conv import NoSharingGraphConv
 from models.gconv.modulated_gcn_conv import ModulatedGraphConv
+from models.gconv.sem_graph_conv import SemGraphConv
 
 from models.graph_non_local import GraphNonLocal
 
@@ -36,6 +37,10 @@ class _GraphConv(nn.Module):
             self.gconv = NoSharingGraphConv(input_dim, output_dim, adj)
         elif gcn_type == 'modulated':
             self.gconv = ModulatedGraphConv(input_dim, output_dim, adj)
+        elif gcn_type == 'semantic':
+            self.gconv = SemGraphConv(input_dim, output_dim, adj)
+
+
         else:
             assert False, 'Invalid graph convolution type'
 
@@ -86,15 +91,16 @@ class _Hourglass(nn.Module):
 class _SkeletalPool(nn.Module):
     def __init__(self, nodes_group):
         super(_SkeletalPool, self).__init__()
-        self.nodes_group = sum(nodes_group, [])
+        self.high_group = sum(nodes_group, [])
+        self.mid_group = [0, 1, 2, 3, 5, 6, 4, 7]
         self.pool = nn.MaxPool1d(kernel_size=2, stride=2)
 
     def forward(self, x):
         if x.shape[1] == 16:
-            out = self.pool(x[:, self.nodes_group].transpose(1, 2))
+            out = self.pool(x[:, self.high_group].transpose(1, 2))
             return out.transpose(1, 2)
         elif x.shape[1] == 8:
-            out = self.pool(x.transpose(1, 2))
+            out = self.pool(x[:, self.mid_group].transpose(1, 2))
             return out.transpose(1, 2)
         else:
             assert False, 'Invalid Type in Skeletal Pooling : x.shape is {}'.format(x.shape)
@@ -104,17 +110,14 @@ class _SkeletalUnpool(nn.Module):
     def __init__(self, nodes_group):
         super(_SkeletalUnpool, self).__init__()
         self.nodes_group = sum(nodes_group, [])
-        self.inv_nodes_group = [0 for _ in range(len(self.nodes_group))]
-        for inv, i in enumerate(self.nodes_group):
-            self.inv_nodes_group[i] = inv
-
-        self.unpool = nn.Upsample(scale_factor=2, mode='nearest')
+        self.inv_low = [0, 0, 1, 1, 3, 2, 2, 3]
+        self.inv_mid = [3, 2, 1, 1, 2, 0, 0, 3, 4, 4, 7, 6, 6, 7, 5, 5]
 
     def forward(self, x):
         if x.shape[1] == 8:
-            return self.unpool(x.transpose(1, 2)).transpose(1, 2)[:, self.inv_nodes_group]
+            return x[:, self.inv_mid]
         elif x.shape[1] == 4:
-            return self.unpool(x.transpose(1, 2)).transpose(1, 2)
+            return x[:, self.inv_low]
         else:
             assert False, 'Invalid Type in Skeletal Unpooling : x.shape is {}'.format(x.shape)
 
