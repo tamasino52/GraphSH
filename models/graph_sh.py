@@ -138,7 +138,7 @@ class _GraphNonLocal(nn.Module):
 
 
 class SEBlock(nn.Module):
-    def __init__(self, adj, input_dim, p_dropout=0., reduction_ratio=8):
+    def __init__(self, adj, input_dim, reduction_ratio=8):
         super(SEBlock, self).__init__()
         hid_dim = input_dim // reduction_ratio
         self.fc1 = nn.Linear(input_dim, hid_dim, bias=True)
@@ -146,14 +146,13 @@ class SEBlock(nn.Module):
         self.gap = nn.AvgPool1d(kernel_size=adj.shape[-1])
         self.relu = nn.ReLU()
         self.sigmoid = nn.Sigmoid()
-        self.drop = nn.Dropout(p_dropout)
 
     def forward(self, x):
         out = self.gap(x)
-        out = self.relu(self.drop(self.fc1(out.squeeze())))
+        out = self.relu(self.fc1(out.squeeze()))
         out = self.sigmoid(self.fc2(out))
 
-        return x * out[:,:,None]
+        return x * out[:, :, None]
 
 
 class GraphSH(nn.Module):
@@ -183,14 +182,16 @@ class GraphSH(nn.Module):
         self.gconv_layers = nn.ModuleList(_gconv_layers)
         self.conv_layers = nn.ModuleList(_conv_layers)
 
-        self.gconv_output = nn.Sequential(SEBlock(adj, hid_dim), nn.Conv1d(hid_dim, coords_dim[1], 1))
+        self.se_blocks = SEBlock(adj, hid_dim)
+        self.gconv_output = nn.Conv1d(hid_dim, coords_dim[1], 1)
 
     def forward(self, x):
         out = self.gconv_input(x)
         inter_fs = []
         for l in range(self.num_layers):
             out = self.gconv_layers[l](out)
-            inter_fs.append(self.conv_layers[l](out.transpose(1,2)).transpose(1,2))
+            inter_fs.append(self.conv_layers[l](out.transpose(1, 2)).transpose(1, 2))
         f_out = torch.cat(inter_fs, dim=2)
-        out = self.gconv_output(f_out.transpose(1,2)).transpose(1,2)
+        out = self.se_blocks(f_out.transpose(1, 2))
+        out = self.gconv_output(out).transpose(1, 2)
         return out
