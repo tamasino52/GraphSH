@@ -1,4 +1,4 @@
-# Graph Stacked Hourglass Network
+# Graph Stacked Hourglass Network (
 <a href="https://hits.seeyoufarm.com"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Ftamasino52%2FGraphSH&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=true"/></a>
 <img src="https://img.shields.io/badge/PyTorch-EE4C2C?style=flat-square&logo=Pytorch&logoColor=white"/></a>
 
@@ -93,6 +93,16 @@ python main_gcn.py --gcn nosharing
 python main_gcn.py --gcn modulated
 ```
 
+### Training 
+
+```
+# Decoupled Vanilla GCN
+python main_gcn.py --gcn dc_vanilla --keypoints cpn_ft_h36m_dbb
+
+# Decoupled Pre-Aggresive GCN
+python main_gcn.py --gcn dc_preagg --keypoints cpn_ft_h36m_dbb
+```
+
 ### Acknowledgement
 This code is extended from the following repositories.
 - [3d-pose-baseline](https://github.com/una-dinosauria/3d-pose-baseline)
@@ -102,4 +112,4 @@ This code is extended from the following repositories.
 - [Local-to-Global GCN](https://github.com/vanoracai/Exploiting-Spatial-temporal-Relationships-for-3D-Pose-Estimation-via-Graph-Convolutional-Networks)
 - [Modulated-GCN](https://github.com/ZhimingZo/Modulated-GCN)
 
-We thank the authors for releasing their code. Please also consider citing their work.
+We thank the authors for releasing their code. Please also consider citing their works.
