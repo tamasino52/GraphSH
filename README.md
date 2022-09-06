@@ -103,6 +103,11 @@ python main_gcn.py --gcn dc_vanilla --keypoints cpn_ft_h36m_dbb
 python main_gcn.py --gcn dc_preagg --keypoints cpn_ft_h36m_dbb
 ```
 
+### Pre-trained weight
+I implemented and tested all the elements proposed in this paper, but failed to reach the benchmark score presented in the paper. Instead, I uploaded a good enough one, so use it if you need it.
+
+[Download Link.](https://drive.google.com/file/d/1FQpAnNyycKXgqlJ7vitFgP7KDwD365sQ/view?usp=sharing)
+
 ### Acknowledgement
 This code is extended from the following repositories.
 - [3d-pose-baseline](https://github.com/una-dinosauria/3d-pose-baseline)
