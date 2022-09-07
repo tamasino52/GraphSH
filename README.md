@@ -2,10 +2,11 @@
 <a href="https://hits.seeyoufarm.com"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Ftamasino52%2FGraphSH&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=true"/></a>
 <img src="https://img.shields.io/badge/PyTorch-EE4C2C?style=flat-square&logo=Pytorch&logoColor=white"/></a>
 
-This repository provides pytorch implementations of Graph Stacked Hourglass Networks for 3D Human Pose Estimation (CVPR 2021)
+This repository contains the pytorch implementation of the approach described in the paper:
+> Tianhan Xu and Wataru Takano. 
+[Graph Stacked Hourglass Networks for 3D Human Pose Estimation](https://arxiv.org/pdf/2103.16385.pdf)
+Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR), 2021, pp. 16105-16114
 
-
-[Graph Stacked Hourglass Networks for 3D Human Pose Estimation](https://arxiv.org/pdf/2103.16385.pdf) by Tianhan Xu, Wataru Takano; Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR), 2021, pp. 16105-16114
 
 ```
 @InProceedings{Xu_2021_CVPR,
