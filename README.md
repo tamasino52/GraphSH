@@ -40,7 +40,7 @@ pip install -r requirements.txt
 CPN 2D detections for Human3.6M datasets are provided by [VideoPose3D](https://github.com/facebookresearch/VideoPose3D) Pavllo et al. [2], which can be downloaded by the following steps:
 
 ```
-cd dataset
+cd data
 wget https://dl.fbaipublicfiles.com/video-pose-3d/data_2d_h36m_cpn_ft_h36m_dbb.npz
 wget https://dl.fbaipublicfiles.com/video-pose-3d/data_2d_h36m_detectron_ft_h36m.npz
 cd ..
@@ -48,7 +48,7 @@ cd ..
 
 3D labels and ground truth can be downloaded
 ```
-cd dataset
+cd data
 gdown --id 1P7W3ldx2lxaYJJYcf3RG4Y9PsD4EJ6b0
 cd ..
 ```
