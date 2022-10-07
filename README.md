@@ -118,4 +118,4 @@ This code is extended from the following repositories.
 - [Local-to-Global GCN](https://github.com/vanoracai/Exploiting-Spatial-temporal-Relationships-for-3D-Pose-Estimation-via-Graph-Convolutional-Networks)
 - [Modulated-GCN](https://github.com/ZhimingZo/Modulated-GCN)
 
-We thank the authors for releasing their code. Please also consider citing their works.
+Thank you to authors for releasing their code. Please also consider citing their works.
